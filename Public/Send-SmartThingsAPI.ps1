@@ -31,9 +31,9 @@ Function Send-SmartThingsAPI {
     begin {
         Write-Verbose "[$(Get-Date)] Begin :: $($MyInvocation.MyCommand)"
 
-        if (-not $SmartThingsToken)
-        {
-            $Global:SmartThingsToken = Read-Host -Prompt "Smartthings Token no present please enter it here: "
+        # Open to suggestions or pull requests on better ways to do this.
+        if (-not $SmartThingsToken) {
+            $Global:SmartThingsToken = Read-Host -Prompt "Smartthings Token no present please enter it here"
         }
 
         $Params = @{
@@ -59,7 +59,7 @@ Function Send-SmartThingsAPI {
     }
     process {
         $Response = Invoke-RestMethod @Params
-        if ($Response) {$Response}
+        if ($Response) { $Response }
     }
     end {
         Write-Verbose "[$(Get-Date)] End :: $($MyInvocation.MyCommand)"

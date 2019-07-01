@@ -2,7 +2,12 @@ function Find-SmartThingsDevice {
     <#
     
     .EXAMPLE
-        Find-Device -name "kitchen" -capability "switch"
+        Find-SmartThingsDevice -name "kitchen" -capability "switch"
+    
+    .EXAMPLE
+        Find-SmartThingsDevice -deviceTypeName "Z-Wave Switch"
+    
+
     #>
     [CmdletBinding()]
     param (
@@ -28,7 +33,6 @@ function Find-SmartThingsDevice {
             }
             $Request = [System.UriBuilder]"$STAPI/devices"
             $Request.Query = $Parameters.ToString()
-            $Request.Uri
 
             $URL = $Request.Uri
         }
@@ -37,16 +41,18 @@ function Find-SmartThingsDevice {
         }
     }
     process {
-        $Devices = Send-SmartthingsAPI -URL $URL
+        $Devices = (Send-SmartthingsAPI -URL $URL).items
         if ($name) {
-            return $Devices.items | Where-Object {$_.label -like "*$name*"}
+            $Devices = $Devices | Where-Object { $_.label -like "*$name*" }
+            return $Devices
         }
-        if ($Type) {
-            return $Devices.items | Where-Object {$_.deviceTypeName -like "*$type*"}
+        if ($deviceTypeName) {
+            $Devices = $Devices.items | Where-Object { $_.deviceTypeName -like "*$deviceTypeName*" }
+            return $Devices
         }
-        return $Devices.items
+        return $Devices
     }
     end {
-        Write-Verbose "Found $($Devices.items.Count) devices"
+        Write-Verbose "Found $($Devices | measure-object | Select-Object -expandproperty count) device(s)"
     }
 }
