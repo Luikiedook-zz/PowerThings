@@ -24,6 +24,7 @@ function Find-SmartThingsDevice {
         #capabilities are case sensative and usually camelCase
     )
     begin {
+        Write-Verbose "[$(Get-Date)] Begin :: $($MyInvocation.MyCommand)"
         if ($capability) {
             #Build URL String query
             $Parameters = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
@@ -44,15 +45,17 @@ function Find-SmartThingsDevice {
         $Devices = (Send-SmartthingsAPI -URL $URL).items
         if ($name) {
             $Devices = $Devices | Where-Object { $_.label -like "*$name*" }
-            return $Devices
+            $Devices
+            
         }
-        if ($deviceTypeName) {
+        elseif ($deviceTypeName) {
             $Devices = $Devices.items | Where-Object { $_.deviceTypeName -like "*$deviceTypeName*" }
-            return $Devices
+            $Devices
         }
-        return $Devices
+        else { $Devices}
     }
     end {
         Write-Verbose "Found $($Devices | measure-object | Select-Object -expandproperty count) device(s)"
+        Write-Verbose "[$(Get-Date)] End :: $($MyInvocation.MyCommand)"
     }
 }

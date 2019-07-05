@@ -1,5 +1,4 @@
-function Invoke-SmartThingsCommand
-{
+function Invoke-SmartThingsCommand {
     <#
     .SYNOPSIS
         execute a command in smartthings
@@ -19,32 +18,31 @@ function Invoke-SmartThingsCommand
     #>
     [CmdletBinding()]
     param(
-        [parameter(Mandatory=$True, ValueFromPipeline)]
+        [parameter(Mandatory)]
         $Device,
+        [parameter(Mandatory)]
         $command,
+        [parameter(Mandatory)]
         $capability
     )
     
 
     begin {
+        Write-Verbose "[$(Get-Date)] Begin :: $($MyInvocation.MyCommand)"
         $commandStructure = "[{command: '$command', capability: '$capability'}]"
-        Write-Verbose -Message $commandStructure
-        Write-Verbose -Message "Device: $device.label"
-        Write-Verbose -Message "Capability: $capability "
         
     }
 
     process {
-        foreach($item in $Device)
-        {
+        foreach ($item in $Device) {
+            
             Send-SmartThingsAPI -URL "$STAPI/devices/$($item.deviceId)/commands" -Body $commandStructure -Method POST
+
+            Write-Verbose -Message "Device: $($item.label) Command: $command Capability $($item.label)"
         }
     }
 
     end {
-
+        Write-Verbose "[$(Get-Date)] End :: $($MyInvocation.MyCommand)"
     }
-
-    
-    
 }

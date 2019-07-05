@@ -10,8 +10,11 @@ Function Send-SmartThingsAPI {
     .PARAMETER Method
         Smarthings API method to call.
 
+    .PARAMETER URL
+        full URL of the rest call.
+
     .PARAMETER Body
-        Arguments to send to the Smarthings API.
+        Body of the  Smarthings API call.
 
     #>
     [CmdletBinding()]
@@ -33,7 +36,12 @@ Function Send-SmartThingsAPI {
 
         # Open to suggestions or pull requests on better ways to do this.
         if (-not $SmartThingsToken) {
-            $Global:SmartThingsToken = Read-Host -Prompt "Smartthings Token no present please enter it here"
+            do {
+                try {
+                    [guid]$Global:SmartThingsToken = Read-Host -Prompt "Smartthings Token no present please enter it here or save to `$SmartThingsToken"
+                }
+                catch {Write-Host "Invalid Smartthings Token" -ForegroundColor Red}
+            } until ($SmartThingsToken)
         }
 
         $Params = @{
@@ -58,8 +66,16 @@ Function Send-SmartThingsAPI {
         }
     }
     process {
-        $Response = Invoke-RestMethod @Params
-        if ($Response) { $Response }
+        try {
+            $Response = Invoke-RestMethod @Params
+        }
+        catch {
+            $Message =  $_.ErrorDetails.Message;
+            Write-Host "$($Message | convertfrom-json | convertto-json -depth 100)" -ForegroundColor Red
+        }
+
+        $Response
+
     }
     end {
         Write-Verbose "[$(Get-Date)] End :: $($MyInvocation.MyCommand)"

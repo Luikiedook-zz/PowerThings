@@ -1,16 +1,38 @@
-#Get public and private function definition files.
-$Public = @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue )
-$Private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue )
-$ModuleRoot = $PSScriptRoot
+#-----------------------------------------------------------------------------------------------------------------------
+#region Load Functions
+#-----------------------------------------------------------------------------------------------------------------------
+Get-ChildItem $PSScriptRoot\Private | Foreach-Object {. $_.FullName}
+Get-ChildItem $PSScriptRoot\Public  | Foreach-Object {. $_.FullName}
+#endregion Load Functions
+#-----------------------------------------------------------------------------------------------------------------------
 
 $Global:STAPI = 'https://api.smartthings.com/v1'
 
-#Dot source the files
-Foreach ($import in @($Public + $Private)) {
-    Try {
-        . $import.fullname
+
+#array of hash tables of global variables we want to set in this module
+$GlobalsToSet = @(
+    #Base URL for API
+    @{
+        VarName  = "STAPI"
+        VarValue = "https://api.smartthings.com/v1"
     }
-    Catch {
-        Write-Error -Message "Failed to import function $($import.fullname): $_"
+)
+
+#iterate through each variable and earn if already present, else set them
+ForEach ($Var in $GlobalsToSet) {
+    if ($GlobalVars | where-object {$_.Name -eq $($Var["VarName"])}) {
+        #warn if already present
+        Write-verbose "$($Var["VarName"]) is already present"
+    }
+    else {
+        #set the constant variable
+        $Params = @{
+            Name   = "$($Var["VarName"])"
+            Value  = "$($Var["VarValue"])"
+            Option = 'ReadOnly'
+            Scope  = 'Global'
+        }
+        New-Variable  @Params
     }
 }
+#Dot source the files
