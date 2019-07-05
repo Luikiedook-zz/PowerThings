@@ -70,7 +70,7 @@ Function Send-SmartThingsAPI {
             $Response = Invoke-RestMethod @Params
         }
         catch {
-            $Message =  $_.ErrorDetails.Message;
+            $Message = $_.ErrorDetails.Message;
             Write-Host "$($Message | convertfrom-json | convertto-json -depth 100)" -ForegroundColor Red
         }
 

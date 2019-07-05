@@ -1,4 +1,4 @@
-function Cache-DevicesandCapabilities {
+function Get-DevicesandCapabilitiesCache {
 
     <#
     .Description

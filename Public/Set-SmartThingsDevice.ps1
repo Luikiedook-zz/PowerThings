@@ -10,11 +10,15 @@ function Set-SmartThingsDevice {
         Smarthings Label of Device
 
     .PARAMETER Capability
+        Capability such as "Switch"
+
+    .PARAMETER Command
+        Command such as "on" or "off"
         
 
     #>
     [CmdletBinding()]
-    param($command)
+    param($Command)
     DynamicParam {
         #Region Device
         # Set the dynamic parameters' name
@@ -61,8 +65,7 @@ function Set-SmartThingsDevice {
         # Add the attributes to the attributes collection
         $AttributeCollection.Add($ParameterAttribute)  
         # Generate and set the ValidateSet 
-        $arrSet = if ($DevicesAndCapabilities)
-        {
+        $arrSet = if ($DevicesAndCapabilities) {
             $DevicesAndCapabilities.capability | Sort-Object | Get-Unique
         }
         else {
@@ -79,7 +82,7 @@ function Set-SmartThingsDevice {
         
         return $RuntimeParameterDictionary
     }
-    begin{
+    begin {
         Write-Verbose "[$(Get-Date)] Begin :: $($MyInvocation.MyCommand)"
         $deviceLabel = $PSBoundParameters[$ParamName_Device]
         $capability = $PSBoundParameters[$ParamName_Capability]
@@ -89,7 +92,7 @@ function Set-SmartThingsDevice {
 
         Invoke-SmartThingsCommand -Device $Device -command $command -capability $capability
     }
-    end{
+    end {
         Write-Verbose "[$(Get-Date)] End :: $($MyInvocation.MyCommand)"
     }
         

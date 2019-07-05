@@ -2,44 +2,36 @@
 
 Powershell module for SmartThings
 
-# Examples
- Find-SmartThingsDevice -name "office" | Invoke-SmartThingsCommand -command on -capability switch
-
- Find-SmartThingsDevice -name "kitchen" | Invoke-SmartThingsCommand -command on -capability switch
- 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
 Powershell version 3 or later and a Smartthings Personal access token that has adequate permissions
 
 https://account.smartthings.com/tokens
 
+# Examples
+
+```powershell
+Find-SmartThingsDevice | select-object label
+```
+
+```powershell
+ Find-SmartThingsDevice -name "office" | Invoke-SmartThingsCommand -command on -capability switch
+```
+ 
+ Supports tab completion of your devices and capabilities
+```powershell
+ Set-SmartThingsDevice -Device 'Dining Room Light' -Capability switch -command on
+```
+
+
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
+```powershell
+ Import-Module .\PowerThings.psm1
 ```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+or copy to Powershell Module path "C:\Program Files\WindowsPowerShell\Modules" in Powershell version 4 and up
 
 
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
@@ -57,6 +49,6 @@ Pull Requests welcome
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* [FoxDeploy](https://foxdeploy.com/2017/01/13/adding-tab-completion-to-your-powershell-functions/)
+* [Joeypiccola](https://gist.github.com/joeypiccola/75cd1f4fd5c2e5f429d7dc580ce6b420)
+for helping me figure out dynamic functions

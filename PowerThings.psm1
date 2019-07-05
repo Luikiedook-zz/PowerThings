@@ -6,7 +6,6 @@ Get-ChildItem $PSScriptRoot\Public  | Foreach-Object {. $_.FullName}
 #endregion Load Functions
 #-----------------------------------------------------------------------------------------------------------------------
 
-$Global:STAPI = 'https://api.smartthings.com/v1'
 
 
 #array of hash tables of global variables we want to set in this module

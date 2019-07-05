@@ -38,7 +38,7 @@ function Invoke-SmartThingsCommand {
             
             Send-SmartThingsAPI -URL "$STAPI/devices/$($item.deviceId)/commands" -Body $commandStructure -Method POST
 
-            Write-Verbose -Message "Device: $($item.label) Command: $command Capability $($item.label)"
+            Write-Verbose -Message "Device: $($item.label) Command: $command Capability $capability"
         }
     }
 
