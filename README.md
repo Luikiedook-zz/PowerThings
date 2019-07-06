@@ -8,6 +8,10 @@ Powershell version 3 or later and a Smartthings Personal access token that has a
 
 https://account.smartthings.com/tokens
 
+### References
+https://smartthings.developer.samsung.com/docs/api-ref/st-api.html
+
+
 # Examples
 
 ```powershell

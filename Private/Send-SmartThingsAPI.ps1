@@ -74,7 +74,10 @@ Function Send-SmartThingsAPI {
             Write-Host "$($Message | convertfrom-json | convertto-json -depth 100)" -ForegroundColor Red
         }
 
-        $Response
+        if (-not [string]::IsNullOrEmpty($Response))
+        {
+            $Response
+        }
 
     }
     end {

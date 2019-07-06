@@ -12,16 +12,19 @@ function Invoke-SmartThingsCommand {
 
     .PARAMETER Command
         Command to Run
+    
+    .PARAMETER capability
+        capability to use
 
-    .PARAMETER Example
+    .EXAMPLE
         Find-SmartThingsDevice -name "office" -capability "switch" | Invoke-SmartThingsCommand -command off -capability switch
     #>
     [CmdletBinding()]
     param(
-        [parameter(Mandatory)]
+        [parameter(Mandatory,ValueFromPipeline)]
         $Device,
         [parameter(Mandatory)]
-        $command,
+        [string]$command,
         [parameter(Mandatory)]
         $capability
     )

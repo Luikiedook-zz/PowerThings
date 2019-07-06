@@ -14,13 +14,18 @@ function Set-SmartThingsDevice {
 
     .PARAMETER Command
         Command such as "on" or "off"
+    
+    .EXAMPLE
+        Set-SmartThingsDevice -Device 'Back Porch Light' -Capability switch -Command off
         
 
     #>
     [CmdletBinding()]
     param($Command)
     DynamicParam {
+        
         #Region Device
+        
         # Set the dynamic parameters' name
         $ParamName_Device = 'Device'
 

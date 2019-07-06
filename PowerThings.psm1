@@ -18,6 +18,7 @@ $GlobalsToSet = @(
 )
 
 #iterate through each variable and earn if already present, else set them
+$GlobalVars = Get-Variable -Scope Global
 ForEach ($Var in $GlobalsToSet) {
     if ($GlobalVars | where-object {$_.Name -eq $($Var["VarName"])}) {
         #warn if already present
@@ -31,7 +32,11 @@ ForEach ($Var in $GlobalsToSet) {
             Option = 'ReadOnly'
             Scope  = 'Global'
         }
-        New-Variable  @Params
+        New-Variable @Params
     }
 }
+
+#Cache devices and capabilities
+Write-Host "Attempting to cache Capabilities and devices $Smartthings token will be required"
+Get-DevicesandCapabilitiesCache
 #Dot source the files

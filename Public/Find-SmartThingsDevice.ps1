@@ -1,19 +1,34 @@
 function Find-SmartThingsDevice {
     <#
+    .SYNOPSIS
+        Searches your smartthings devices, supports various parameters as filters
+    .PARAMETER Name
+        Device Label from smartthings, supports wildcards
     
+    .PARAMETER deviceTypeName
+        deviceTypeName as configured in SmartThings
+    
+    .PARAMETER capability
+        capability as configured in SmartThings
+
+
     .EXAMPLE
         Find-SmartThingsDevice -name "kitchen" -capability "switch"
     
     .EXAMPLE
         Find-SmartThingsDevice -deviceTypeName "Z-Wave Switch"
     
+    .EXAMPLE
+        Find-SmartThingsDevice -capability "switch","powerMeter"
+    
 
     #>
     [CmdletBinding()]
+    [OutputType([PSCustomObject])]
     param (
         #[Parameter(Mandatory = $false,
         #ParameterSetName="name")]
-        [string]$name,
+        [string]$Name,
 
         #[Parameter(Mandatory = $false,
         #ParameterSetName="deviceTypeName")]
@@ -55,7 +70,7 @@ function Find-SmartThingsDevice {
         else { $Devices}
     }
     end {
-        Write-Verbose "Found $($Devices | measure-object | Select-Object -expandproperty count) device(s)"
+        Write-Verbose "Found $($Devices | Measure-Object | Select-Object -ExpandProperty count) device(s)"
         Write-Verbose "[$(Get-Date)] End :: $($MyInvocation.MyCommand)"
     }
 }
