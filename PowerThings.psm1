@@ -37,6 +37,6 @@ ForEach ($Var in $GlobalsToSet) {
 }
 
 #Cache devices and capabilities
-Write-Host "Attempting to cache Capabilities and devices $Smartthings token will be required"
+Write-Host "Attempting to cache Capabilities and devices `$SmartThingsToken token will be required"
 Get-DevicesandCapabilitiesCache
 #Dot source the files

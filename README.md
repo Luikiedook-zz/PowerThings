@@ -1,4 +1,4 @@
-# Project Title
+# PowerThings
 
 Powershell module for SmartThings
 
@@ -14,24 +14,25 @@ https://smartthings.developer.samsung.com/docs/api-ref/st-api.html
 
 # Examples
 
+Supports tab completion of your devices and capabilities
+```powershell
+Set-SmartThingsDevice -Device 'Dining Room Light' -Capability switch -command on
+```
+
 ```powershell
 Find-SmartThingsDevice | select-object label
 ```
 
 ```powershell
- Find-SmartThingsDevice -name "office" | Invoke-SmartThingsCommand -command on -capability switch
+Find-SmartThingsDevice -name "office" | Invoke-SmartThingsCommand -command on -capability switch
 ```
  
- Supports tab completion of your devices and capabilities
-```powershell
- Set-SmartThingsDevice -Device 'Dining Room Light' -Capability switch -command on
-```
 
 
 ### Installing
 
 ```powershell
- Import-Module .\PowerThings.psm1
+Import-Module .\PowerThings.psm1
 ```
 or copy to Powershell Module path "C:\Program Files\WindowsPowerShell\Modules" in Powershell version 4 and up
 
