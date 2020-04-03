@@ -26,14 +26,15 @@ function Invoke-SmartThingsCommand {
         [parameter(Mandatory)]
         [string]$command,
         [parameter(Mandatory)]
-        $capability
+        $capability,
+        $commandParam
     )
     
 
     begin {
         Write-Verbose "[$(Get-Date)] Begin :: $($MyInvocation.MyCommand)"
-        $commandStructure = "[{command: '$command', capability: '$capability'}]"
-        
+
+        $commandStructure = "[{command: '$command', capability: '$capability', arguments: [$commandParam]}]"
     }
 
     process {
@@ -41,7 +42,7 @@ function Invoke-SmartThingsCommand {
             
             Send-SmartThingsAPI -URL "$STAPI/devices/$($item.deviceId)/commands" -Body $commandStructure -Method POST
 
-            Write-Verbose -Message "Device: $($item.label) Command: $command Capability $capability"
+            Write-Verbose -Message $commandStructure
         }
     }
 

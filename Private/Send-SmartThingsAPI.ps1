@@ -81,6 +81,7 @@ Function Send-SmartThingsAPI {
 
     }
     end {
+        Write-Verbose ($Params | ConvertTo-Json)
         Write-Verbose "[$(Get-Date)] End :: $($MyInvocation.MyCommand)"
     }
 }
